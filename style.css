@@ -116,8 +116,7 @@ main {
 
 .parallax {
     pointer-events: none;
-
-    transform: translate(-50%, -50%);
+    transition: 0.45s cubic-bezier(.2, .40, .32, .99);
 }
 
 .bg-img {
@@ -127,7 +126,6 @@ main {
     top: calc(50% - 390px);
     /* top: calc(50% - 300px); */
     left: calc(50% + 10px);
-    transform: translate(-50%, -50%);
     z-index: 1;
 }
 
@@ -196,7 +194,6 @@ main {
     z-index: 9;
     top: calc(50% - 130px);
     left: 50%;
-    transform: translate(-50%, -50%);
     text-align: center;
     text-transform: uppercase;
     pointer-events: auto;
