@@ -5,11 +5,7 @@ let xValue = 0,
 
 let rotatedegree = 0;
 
-window.addEventListener("mousemove", (e) => {
-    xValue = e.clientX - window.innerWidth / 2;
-    yValue = e.clientY - window.innerHeight / 2;
-
-    rotateDegree = xValue / (window.innerWidth / 2) * 20;
+function update(cursorX, rotateDegree) {
 
     parallax_el.forEach(el => {
         let speedx = el.dataset.speedx;
@@ -17,12 +13,79 @@ window.addEventListener("mousemove", (e) => {
         let speedz = el.dataset.speedz;
         let rotation = el.dataset.rotation;
 
-        let zValue = e.clientX - parseFloat(getComputedStyle(el).left);
+        let zValue = cursorX - parseFloat(getComputedStyle(el).left);
 
         let isInLeft = window.innerWidth / 2 > getComputedStyle(el).left ? 1 : 0;
 
         el.style.transform = `translateX(calc(-50% + ${xValue * speedx}px)) translateY(calc(-50% + ${yValue * speedy}px)) perspective(2300px)  translateZ(${zValue * isInLeft * speedz}px) rotateY(${rotateDegree * rotation}deg)`;
     })
+}
 
-    console.log(xValue, yValue);
+update(0, 0);
+
+window.addEventListener("mousemove", (e) => {
+    if (timeline.isActive()) return;
+    xValue = e.clientX - window.innerWidth / 2;
+    yValue = e.clientY - window.innerHeight / 2;
+
+    rotateDegree = xValue / (window.innerWidth / 2) * 20;
+
+    update(e.clientX, rotateDegree);
 })
+
+/* GSAP animation */
+
+let timeline = gsap.timeline();
+
+
+
+
+// parallax_el.forEach(el => {
+//     timeline.from(
+//         el,
+//         {
+//             top: `${el.offsetHeight / 10 + +el.dataset.distance}px`,
+//             duration: 3, ease: "power3.out",
+//         }
+//     );
+// });
+
+timeline.from(".bg-img",
+    {
+        top: `${+document.querySelector(".bg-img").offsetHeight / 2 - 200}px`,
+        duration: 1
+    });
+
+timeline.from(".text h1", {
+    y: window.innerHeight - document.querySelector(".text h1").getBoundingClientRect().top + 200,
+    duration: 2,
+}, "0.5");
+
+timeline.from(".text h2", {
+    y: - document.querySelector(".text h2").getBoundingClientRect().top,
+    opacity: 0,
+    duration: 1.5,
+}, "1");
+
+timeline.from(".hide", {
+    opacity: 0,
+    duration: 1.5
+}, "1.5");
+
+// Array.from(parallax_el)
+// .filter((el) => !el.classList.contains("text"))
+// .forEach(el => {
+// parallax_el.forEach(el => {
+//     timeline.from(
+//         el,
+//         {
+//             top: `${el.offsetHeight / 2 + el.dataset.distance}px`,
+//             duration: 1.5,
+//             ease: "power3.out",
+//         },
+//         // "1"
+//     );
+//     console.log(el.classList)
+// });
+
+// timeline.from()
