@@ -47,21 +47,22 @@ let timeline = gsap.timeline();
 
 
 
-// parallax_el.forEach(el => {
-//     timeline.from(
-//         el,
-//         {
-//             top: `${el.offsetHeight / 10 + +el.dataset.distance}px`,
-//             duration: 3, ease: "power3.out",
-//         }
-//     );
-// });
+parallax_el.forEach(el => {
+    timeline.from(
+        el,
+        {
+            top: `${el.getBoundingClientRect().bottom - el.getBoundingClientRect().height * .98}px`,
+            // top: `${el.offsetHeight / 2 + +el.dataset.distance * .75}px`,
+            duration: 0.5, ease: "power3.out",
+        }
+    );
+});
 
-timeline.from(".bg-img",
-    {
-        top: `${+document.querySelector(".bg-img").offsetHeight / 2 - 200}px`,
-        duration: 1
-    });
+// timeline.from(".bg-img",
+//     {
+//         top: `${+document.querySelector(".bg-img").offsetHeight / 2 - 200}px`,
+//         duration: 1
+//     });
 
 timeline.from(".text h1", {
     y: window.innerHeight - document.querySelector(".text h1").getBoundingClientRect().top + 200,
